@@ -87,10 +87,10 @@ print(d)
 # 	修改单个键值对
 # 		dic[key] = value
 # 			直接设置, 如果key不存在, 则新增, 存在则修改
-# d = {"name": "sz", "age": 18}
-# print(d)
-# d["age1"] = 20
-# print(d)
+d = {"name": "fh", "age": 18}
+print(d)
+d["age"] = 20
+print("改",d)
 
 
 
@@ -98,25 +98,20 @@ print(d)
 # 		oldDic.update(newDic)
 # 			根据新的字典, 批量更新旧字典中的键值对
 # 			如果旧字典没有对应的key, 则新增键值对
-# d = {"name": "sz", "age": 18}
-#
-# d.update({"age": 666, "address": "上海"})
-# print(d)
+d = {"name": "fh", "age": 18}
+
+d.update({"age": 666, "address": "上海"})
+print("批量改",d)
 
 
-# ---------------------查询操作----------------------------
-
-
+print("---------------------查询操作----------------------------")
 # 获取单个值
 # 方式1
 # dic[key]
 # 如果key, 不存在, 会报错
-# d = {"name": "sz", "age": 18, 0: "666"}
-# # print(d["age"])
-# print(d[0])
-
-
-
+d = {"name": "fh", "age": 18, 0: "666"}
+# print(d["age"])
+print("查单个",d[0])  #通过key取
 
 # 方式2
 # dic.get(key[, default])
@@ -124,11 +119,9 @@ print(d)
 # 如果没有默认值, 则为None
 # 但不会报错
 # 但是, 原字典不会新增这个键值对
-# d = {"name": "sz", "age": 18, 0: "666"}
-# v = d.get("age1", 666)
-# print(v, d)
-
-
+d = {"name": "fh", "age": 18, 0: "666"}
+v = d.get("age1", 666) #666是默认值  如果key不存在,返回这个默认值
+print("查 get",v, d)
 
 # 方式3
 # dic.setdefault(key[, default])
@@ -136,82 +129,67 @@ print(d)
 # 如果key不存在, 则设置给定默认值, 并返回该值
 # 如果默认值没给定
 # 则使用None代替
-# d = {"name": "sz", "age": 18, 0: "666"}
-# v = d.setdefault("age1", 666)
-# print(v, d)
-
-
-
-
-
+d = {"name": "fh", "age": 18, 0: "666"}
+v = d.setdefault("age1", 666) #如果key不存在,会添加这个键值对
+print("setDefault",v, d)
 
 
 # 获取所有的值
-# 	dic.values()
-# d = {"name": "sz", "age": 18, 0: "666"}
-# vs = d.values()
-#
-#
+#	dic.values()
+d = {"name": "fh", "age": 18, 0: "666"}
+vs = d.values()
+
+
 # # 获取所有的键
 # # 	dic.keys()
-# ks = d.keys()
-#
-#
-#
+ks = d.keys()
+
 # # 获取字典的键值对
-# # 	dic.items()
-# its = d.items()
-#
-#
-# print(vs, ks, its)
-#
-#
-# d["address"] = 999
-# print(d)
-#
-# print(vs, ks, its)
-#
-# print(list(vs))
-# print(tuple(vs))
+# 	dic.items()
+its = d.items()
 
 
+print(vs, ks, its)
 
+d["address"] = 999
+print(d)
+
+print(vs, ks, its)
+
+print(list(vs))
+print(tuple(vs))
+
+#遍历
+#方式1:
 # 先遍历所有的key< 然后, 根据指定的key, 获取到对应的值
-# d = {"name": "sz", "age": 18, "address": "上海"}
+d = {"name": "fh", "age": 18, "address": "上海"}
 
 # 1. 先获取所有的key
-# keys = d.keys()
-#
+keys = d.keys()
+
 # # 2. 遍历所有de key
-# for key in keys:
-#     print(key)
-#     print(d[key])
-#
-#
-#
-#
+for key in keys:
+    print(key)
+    print(d[key])
+
+
+#方式2:
 # # 直接遍历所有的键值对
 #
 # # 1. 获取, 所有的键值对
-# kvs = d.items()
-# print(kvs)
-# # [('name', 'sz'), ('age', 18), ('address', '上海')]
-#
-# d["xxx"] = "000"
-#
-# # 2. 直接遍历
-#
-# for k, v in kvs:
-#     print(k, v)
+kvs = d.items()
+print(kvs)
 
-d = {"name": "sz", "age": 18, "address": "上海"}
+d["xxx"] = "000"  #这时候添加一个值,也是可以的
+
+# # 2. 直接遍历
+for k, v in kvs:
+    print(k, v)
 
 # 计算
 # 	len(info)
 # 		键值对的个数
 print(len(d))
-
-
 
 # 判定
 # 	x in dic
@@ -220,8 +198,6 @@ print(18 in d)
 
 # 	x not in dic
 # 		判定dic中的key, 是否不存在x
-
-
 
 # 	dic.has_key(key)
 # 		已过期, 建议使用in来代替
