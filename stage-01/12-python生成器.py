@@ -96,5 +96,3 @@ def jiecheng(n):
 
 result = jiecheng(5)
 print(result)
-
-
