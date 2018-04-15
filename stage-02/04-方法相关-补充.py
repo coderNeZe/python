@@ -96,7 +96,6 @@ p(123, 456, name="fh")
 
 #使用面向对象实现
 class PenFactory:
-
     def __init__(self, p_type):
         self.p_type = p_type
 
@@ -114,296 +113,285 @@ qianbiF("红色")
 qianbiF("绿色")
 qianbiF("黄色")
 
-# ----------------------------索引操作------------------------------------
+print("----------------------------索引操作------------------------------------")
+#就是像字典一样的去操作对象
+class Person:
+    def __init__(self):
+        self.cache = {} #初始化的时候,就可以有一个字典,以后就可以去操作这个字典
+
+    def __setitem__(self, key, value):
+        # print("setitem", key, value)
+        self.cache[key] = value
+
+    def __getitem__(self, item):
+        # print("getitem", item)
+        return self.cache[item]
+
+    def __delitem__(self, key):
+        # print("delitem", key)
+        del self.cache[key]
+
+p = Person()  #实现上述的三个内置方法,就可以像操作字典一样,操作对象
+p["name"] = "fh" #对应上边的__setitem__
+
+print(p["name"]) #对应上边的__getitem__
+
+del p["name"] #对应上边的__delitem__
+
+print(p.cache)
 
 
-# class Person:
-#     def __init__(self):
-#         self.cache = {}
-#
-#     def __setitem__(self, key, value):
-#         # print("setitem", key, value)
-#         self.cache[key] = value
-#
-#     def __getitem__(self, item):
-#         # print("getitem", item)
-#         return self.cache[item]
-#
-#     def __delitem__(self, key):
-#         # print("delitem", key)
-#         del self.cache[key]
-#
-# p = Person()
-# p["name"] = "sz"
-#
-# print(p["name"])
-#
-# del p["name"]
-#
-# # print(p["name"])
-# print(p.cache)
+print("----------------------------切片操作------------------------------------")
+#相当于列表中获取某段的数据
+l = [1, 2, 3, 4, 5]
+# print(l[3])
+print(l[1: 4: 2])
+
+class Person:
+
+    def __init__(self):
+        self.items = [1, 2, 3, 4, 5, 6, 7, 8]
+
+    def __setitem__(self, key, value):
+        # print(key, value)
+        # print(key.start)
+        # print(key.stop)
+        # print(key.step)
+        # print(value)
+
+        if isinstance(key, slice):#判断所传的key,必须是一个slice对象
+            self.items[key.start: key.stop: key.step] = value
+            # self.items[key] = value #最好用这种方式,上边那种赋值方法也行
+
+    def __getitem__(self, item):
+        print("getitem", item)
+
+    def __delitem__(self, key):
+        print("delitem", key)
+
+p = Person()
+p[0: 4: 2] = ["a", "b"]
+print(p.items)
+slice  #切片对象的意思
+
+p[0: 5: 2]  #获取 __getitem__
+del p[0: 5: 2]  #删除__delitem__
+
+print("----------------------------比较操作------------------------------------")
+class Person:
+    def __init__(self, age, height):
+        self.age = age
+        self.height = height
+
+    # == != > >= < <=
+    def __eq__(self, other):
+        print("eq")
+        return self.age == other.age
+
+    def __ne__(self, other): #不相等的意思
+        pass
+
+    def __gt__(self, other): #大于
+        pass
+
+    def __ge__(self, other): #大于等于
+        pass
+
+    def __lt__(self, other): #小于
+        # print("lt")
+        print(self.age)
+        print(other.age)
+        return self.age < other.age
+
+    def __le__(self, other):#小于等于
+        pass
 
 
-# ----------------------------切片操作------------------------------------
+p1 = Person(18, 190)
+p2 = Person(19, 190)
+print(p1 < p2)
+print(p1 <= p2) # p2 < p1
+print(p1 == p2)
+print(p1 != p2)
+print(p1 <= p2)
 
 
-# l = [1, 2, 3, 4, 5]
-# # print(l[3])
-# print(l[1: 4: 2])
+print("---------------------------比较操作-补充------------------------------------")
+import functools
+
+@functools.total_ordering  #可以通过__lt__和__eq__推算出其他的方法
+class Person:
+    def __lt__(self, other):
+        print("lt")
+        # pass
+        return False
+
+    def __eq__(self, other):
+        print("eq")
+        pass
+
+    # def __le__(self, other):
+    #     print("le")
+
+p1 = Person()
+p2 = Person()
+
+print(p1 <= p2) #函数内部并没有<=的方法实现 因为用了@functools.total_ordering的装饰器,系统会自动补全其他的方法
+
+print(Person.__dict__)
 
 
-#
-# class Person:
-#
-#     def __init__(self):
-#         self.items = [1, 2, 3, 4, 5, 6, 7, 8]
-#
-#     def __setitem__(self, key, value):
-#         # print(key, value)
-#         # print(key.start)
-#         # print(key.stop)
-#         # print(key.step)
-#         # print(value)
-#         # self.items[key] = value
-#         if isinstance(key, slice):
-#             self.items[key.start: key.stop: key.step] = value
-#
-#     def __getitem__(self, item):
-#         print("getitem", item)
-#
-#     def __delitem__(self, key):
-#         print("delitem", key)
-#
-# p = Person()
-# p[0: 4: 2] = ["a", "b"]
-# print(p.items)
-# slice
+print("----------------------------上下文环境的布尔值------------------------------------")
 
-# p[0: 5: 2]
-# del p[0: 5: 2]
+class Person:
+    def __init__(self):
+        self.age = 20
 
-# ----------------------------比较操作------------------------------------
+    def __bool__(self):
+        return self.age >= 18
+    pass
 
-# class Person:
-#     def __init__(self, age, height):
-#         self.age = age
-#         self.height = height
-#     # == != > >= < <=
-#
-#     def __eq__(self, other):
-#         print("eq")
-#         return self.age == other.age
-
-# def __ne__(self, other):
-#     pass
-#
-# def __gt__(self, other):
-#     pass
-#
-# def __ge__(self, other):
-#     pass
-#
-# def __lt__(self, other):
-#     # print("lt")
-#     print(self.age)
-#     print(other.age)
-#     return self.age < other.age
-#
-# def __le__(self, other):
-#     pass
+p = Person()
+if p:#控制p是true还是false 通过__bool__方法实现
+    print("xx")
 
 
-# p1 = Person(18, 190)
-# p2 = Person(19, 190)
-# print(p1 < p2)
-# print(p1 <= p2) # p2 < p1
-# print(p1 == p2)
-# print(p1 != p2)
-# print(p1 <= p2)
+print("----------------------------遍历操作------------------------------------")
+#让自己创建的对象 可以通过for in 遍历
+#方式1:__getitem__
+class Person:
+    def __init__(self):
+        self.result = 1
+
+    def __getitem__(self, item):
+        self.result += 1
+        if self.result >= 6:
+            raise StopIteration("停止遍历") #抛出异常
+
+        return self.result
+    pass
+
+p = Person()
+for i in p:
+    print(i)
+
+# 方式2:__iter__
+print("-------------")
+class Person:
+    def __init__(self):
+        self.result = 1
+
+    def __iter__(self):
+        print("iter")
+        self.result = 1
+        # return iter([1, 2, 3, 4, 5])
+        return self
+
+    def __next__(self):
+        self.result += 1
+        if self.result >= 6:
+            raise StopIteration("停止遍历")
+            return self.result
+
+p = Person()
+result = next(p)
+while result:
+    print(result)
+    result = next(p)
+
+print("----------------------------恢复迭代器初始值(复用)------------------------------------")
+class Person:
+    def __init__(self):
+        self.age = 1
 
 
-# ----------------------------比较操作-补充------------------------------------
+    def __getitem__(self, item):
+        return 1
 
-# import functools
-#
-#
-# @functools.total_ordering
-# class Person:
-#     def __lt__(self, other):
-#         print("lt")
-#         # pass
-#         return False
-#
-#     def __eq__(self, other):
-#         print("eq")
-#         pass
-#
-#     # def __le__(self, other):
-#     #     print("le")
-#
-# p1 = Person()
-# p2 = Person()
-#
-# print(p1 <= p2)
-#
-# print(Person.__dict__)
+    def __iter__(self):
+        self.age = 1
+        return self
 
+    def __next__(self):
+        self.age += 1
+        if self.age >= 6:
+            raise StopIteration("stop")
 
-# ----------------------------上下文环境的布尔值------------------------------------
+        return self.age
 
-# class Person:
-#     def __init__(self):
-#         self.age = 20
-#
-#     def __bool__(self):
-#         return self.age >= 18
-#     pass
-#
-# p = Person()
-#
-#
-# if p:
-#     print("xx")
+p = Person()
 
+for i in p:
+    print(i)
 
-# ----------------------------遍历操作------------------------------------
+for i in p:  #能够再次遍历的原因是,__iter__又重置了age的值,这样在进行又一次遍历的时候,__iter__会被重新调用,由此实现了迭代器的可以再次使用
+    print(i)
 
+import collections
+print(isinstance(p, collections.Iterator))  #实现__iter__和__next__的才是一个迭代器
+print(isinstance(p, collections.Iterable))  #查看是否是个可迭代对象  只要实现__iter__
 
-# class Person:
-#     def __init__(self):
-#         self.result = 1
-#
-#     def __getitem__(self, item):
-#         self.result += 1
-#         if self.result >= 6:
-#             raise StopIteration("停止遍历")
-#
-#         return self.result
-#     pass
-#
-# p = Person()
-#
-# for i in p:
-#     print(i)
+'''
+总结:一个可迭代对象 一定可以通过forin进行遍历 但可以for in遍历的,不一定是一个可迭代对象 
+比如,一个类实现了__getitem__方法,他就可以通过forin遍历,但没有实现__iter__方法,就不是一个可迭代对象
+'''
+print("---------------------------iter函数的使用------------------------------------")
+#方式1:
+class Person:
+    def __init__(self):
+        self.age = 1
 
+    def __getitem__(self, item):
+        self.age += 1
+        if self.age >= 6:
+            raise StopIteration("stop")
+        return self.age
 
-# 方式2
-# class Person:
-#     def __init__(self):
-#         self.result = 1
-#
-#     def __iter__(self):
-#         print("iter")
-#         self.result = 1
-#         # return iter([1, 2, 3, 4, 5])
-#         return self
-#
-#     def __next__(self):
-#         self.result += 1
-#         if self.result >= 6:
-#             raise StopIteration("停止遍历")
-#         return self.result
-#
-# p = Person()
-#
-# # for i in p:
-# #     print(i)
-#
-# print(next(p))
-# print(next(p))
-# print(next(p))
-# print(next(p))
-# print(next(p))
-# print(next(p))
+p = Person()
+pt = iter(p) #类里必须实现__getitem__方法,让这个对象有迭代的功能,再调用iter()可以把该对象转换成迭代器
+for i in pt:
+    print(i)
 
-# result = next(p)
-# while result:
-#     print(result)
-#     result = next(p)
+print("-----------")
+#方式2:
+class Person:
+    def __init__(self):
+        self.age = 1
 
+    def __iter__(self):
+        self.age = 1
+        return self
 
+    def __next__(self):
+        self.age += 1
+        if self.age >= 6:
+            raise StopIteration("stop")
+        return self.age
 
-# ----------------------------恢复迭代器初始值------------------------------------
-
-
-# class Person:
-#     def __init__(self):
-#         self.age = 1
-#
-#
-#     def __getitem__(self, item):
-#         return 1
-# def __iter__(self):
-#     self.age = 1
-#     return self
-#
-# def __next__(self):
-#     self.age += 1
-#     if self.age >= 6:
-#         raise StopIteration("stop")
-#
-#     return self.age
-
-# next()
-# p = Person()
-
-# for i in p:
-#     print(i)
-# print(p.age)
-# for i in p:
-#     print(i)
-
-# import collections
-# print(isinstance(p, collections.Iterator))
-# print(isinstance(p, collections.Iterable))
-
-
-# ----------------------------iter函数的使用------------------------------------
-
-
-#
-# class Person:
-#     def __init__(self):
-#         self.age = 1
-
-    # def __getitem__(self, item):
+    # def __call__(self, *args, **kwargs):
     #     self.age += 1
     #     if self.age >= 6:
     #         raise StopIteration("stop")
     #     return self.age
 
-    # def __iter__(self):
-    #     self.age = 1
-    #     return self
+p = Person()
+pt = iter(p)
+for i in pt:
+    print(i)
 
-    # def __next__(self):
-    #     self.age += 1
-    #     if self.age >= 6:
-    #         raise StopIteration("stop")
-    #     return self.age
+print(pt is p) #因为类现实了__iter__和__next__方法,所以本身就是一个迭代器,再调用iter(),其实是一个迭代器
 
-#     def __call__(self, *args, **kwargs):
-#         self.age += 1
-#         if self.age >= 6:
-#             raise StopIteration("stop")
-#         return self.age
-# p = Person()
+# pt = iter(p.__next__, 4) # pt还可以传第二个参数,意思就是到4的时候就结束
+# pt = iter(p, 4)  #也可以直接传p,但要注意,传对象的时候 要实现__call__方法,此时__next__方法可以注释,因为p会自动调用__call__里边的方法
 
-
-# pt = iter(p)
-# pt = iter(p.__next__, 4)
-# pt = iter(p, 4)
-
-# print(pt is p)
-#
-# for i in pt:
-#     print(i)
-
-# l = [1, 2, 3]
-# lt = iter(l)
-# print(lt)
-
-
+l = [1, 2, 3]
+lt = iter(l)
+print(lt)
+import collections
+print(isinstance(l, collections.Iterator)) #列表不是迭代器
+print(isinstance(l, collections.Iterable)) #列表可以迭代
+print(isinstance(lt, collections.Iterator)) #转换后是迭代器
+print(isinstance(lt, collections.Iterable)) #依旧可以迭代
 
 # ----------------------------描述器-定义方式1------------------------------------
 
