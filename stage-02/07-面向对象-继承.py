@@ -126,80 +126,55 @@ print("--------------------------------------面向对象案例-----------------
 
 class AnimalClass:
     def __init__(self,name,age = 1):
-        self.__age = age
-        self.__name  = name
+        self.name = name
+        self.age = age
 
     def eat(self):
-        pass
+        print("%s在吃饭" % self)
 
     def play(self):
-        pass
-
-    def skill(self):
-        pass
+        print("%s在玩" % self)
 
     def sleep(self):
-        pass
+        print("%s在睡觉" % self)
 
 class DogClass(AnimalClass):
-    def __init__(self, name, age=1):
-        super().__init__(name, age)
+    def work(self):
+        print("%s在看家" % self)
 
-    def eat(self):
-        print("狗吃饭")
-
-    def play(self):
-        print("狗玩")
-
-    def skill(self):
-        print("名字是{0}, 年龄{1}岁的小狗在看家", format(self.__name, self.__age))
-
-    def sleep(self):
-        print("狗睡觉")
+    def __str__(self):
+        return "名字是{}, 年龄{}岁的小狗".format(self.name, self.age)
 
 class CatClass(AnimalClass):
-    def __init__(self,name,age = 1):
-        super().__init__(name,age)
+    def work(self):
+        print("%s在捉老鼠" % self)
 
-    def eat(self):
-        print("猫吃饭")
-
-    def play(self):
-        print("猫玩")
-
-    def skill(self):
-        print("名字是{0}, 年龄{1}岁的小猫在捉老鼠", format(self.__name, self.__age))
-
-    def sleep(self):
-        print("猫睡觉")
+    def __str__(self):
+        return "名字是{}, 年龄{}岁的小猫".format(self.name, self.age)
 
 class PersonClass(AnimalClass):
-    def eat(self):
-        print("人吃饭")
+    def __init__(self, name, pets, age=1):
+        super().__init__(name, age)
+        self.pets = pets
 
-    def play(self):
-        print("人玩")
+    def yang_pets(self):
+        for pet in self.pets:
+            pet.eat()
+            pet.play()
+            pet.sleep()
 
-    def skill(self):
-        pass
+    def make_pets_work(self):
+        for pet in self.pets:
+            pet.work()
 
-    def sleep(self):
-        print("人睡觉")
+    def __str__(self):
+        return "名字是{}, 年龄{}岁的人".format(self.name, self.age)
 
-p = PersonClass("小王",18)
-d = DogClass("小虎",1)
-c = CatClass("小喵",2)
-p.dog = d
-p.cat = c
-p.dog.eat()
-p.dog.play()
-p.dog.sleep()
-p.dog.skill()
-
-p.cat.eat()
-p.cat.play()
-p.cat.sleep()
-p.cat.skill()
+d = DogClass("小黑", 18)
+c = CatClass("小红", 2)
+p = PersonClass("fh", [d, c], 18)
+p.yang_pets()
+p.make_pets_work()
 
 
 
