@@ -166,7 +166,6 @@ class Person:
     def run(self):
         print("run")
 
-
 # __dict__ : 类的属性
 # __bases__ : 类的所有父类构成元组
 # __doc__ :类的文档字符串

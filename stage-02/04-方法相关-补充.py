@@ -393,238 +393,210 @@ print(isinstance(l, collections.Iterable)) #列表可以迭代
 print(isinstance(lt, collections.Iterator)) #转换后是迭代器
 print(isinstance(lt, collections.Iterable)) #依旧可以迭代
 
-# ----------------------------描述器-定义方式1------------------------------------
+print("----------------------------描述器-定义方式1------------------------------------")
+#通过property实现
+class Person:
+    def __init__(self):
+        self.__age = 10
+
+    @property
+    def age(self):
+        return self.__age
+
+    @age.setter
+    def age(self, value):
+        if value < 0:
+            value = 0
+        self.__age = value
+
+    @age.deleter
+    def age(self):
+        print("del age")
+        del self.__age
+
+p = Person()
+p.age = 19
+print(p.age)
+
+del p.age
+
+print("---------------------------描述器-定义方式2------------------------------------")
+class Age:
+    def __get__(self, instance, owner):
+        print("get")
+
+    def __set__(self, instance, value):
+        print("set")
+
+    def __delete__(self, instance):
+        print("delete")
+
+class Person:
+    age = Age()
+
+p = Person()
+p.age = 10
+print(p.age)
+del p.age
+
+print("----------------------------描述器-调用细节------------------------------------")
+
+class Age(object):
+    def __get__(self, instance, owner):
+        print("get")
+
+    def __set__(self, instance, value):
+        print("set")
+
+    def __delete__(self, instance):
+        print("delete")
 
 
-# class Person:
-#     def __init__(self):
-#         self.__age = 10
-#
-#     @property
-#     def age(self):
-#         return self.__age
-#
-#     @age.setter
-#     def age(self, value):
-#         if value < 0:
-#             value = 0
-#         self.__age = value
-#
-#     @age.deleter
-#     def age(self):
-#         print("del age")
-#         del self.__age
-
-    # age = property(get_age, set_age, del_age)
-    # name = "sz"
-
-# p = Person()
-# p.age = 19
-# del p.age
-# print(p.age)
-# p.age = 19
-# print(p.age)
-# del p.age
-# print(p.age)
-# p.set_age(-10)
-# print(p.get_age())
-# p.del_age()
-# print(p.get_age())
-# p.age = 10
-
-# help(Person)
+class Person(object):
+    age = Age()  #定义完一个描述器后,一般通过该类生成的实例去调用
+    def __getattribute__(self, item): #这个方法会去调用装饰器的get方法,当你重写时,可能会进行覆盖
+        print ("xxxxx")
 
 
-
-
-
-
-
-# ----------------------------描述器-定义方式2------------------------------------
-
-
-# class Age:
-#     def __get__(self, instance, owner):
-#         print("get")
-#
-#     def __set__(self, instance, value):
-#         print("set")
-#
-#     def __delete__(self, instance):
-#         print("delete")
-#
-# class Person:
-#     age = Age()
-    # def __init__(self):
-    #     self.__age = 10
-    #
-    # # @property
-    # def get_age(self):
-    #     return self.__age
-    #
-    # # @age.setter
-    # def set_age(self, value):
-    #     if value < 0:
-    #         value = 0
-    #     self.__age = value
-    #
-    # # @age.deleter
-    # def del_age(self):
-    #     print("del age")
-    #     del self.__age
-    #
-    # age = property(get_age, set_age, del_age)
-
-# p = Person()
-# p.age = 10
-# print(p.age)
-# del p.age
-
-
-# ----------------------------描述器-调用细节------------------------------------
-
-
-# class Age(object):
-#     def __get__(self, instance, owner):
-#         print("get")
-#
-#     def __set__(self, instance, value):
-#         print("set")
-#
-#     def __delete__(self, instance):
-#         print("delete")
-#
-#
-# class Person(object):
-#     age = Age()
-#     def __getattribute__(self, item):
-#         print "xxxxx"
-#
-#
-# p = Person()
-#
-# p.age = 10
-# print(p.age)
-# del p.age
-
+#操作描述器的时候,如果是通过类进行调用,不会调用Age描述器里的方法(所以不能通过类调用)
 # print(Person.age)
 # Person.age = 19
 # del Person.age
 
+p = Person()
+p.age = 10
+print(p.age)
+del p.age
 
-# ----------------------------描述器-和实例属性同名时, 操作优先级------------------------------------
+
+print("----------------------------描述器-和实例属性同名时, 操作优先级------------------------------------")
 
 # 资料描述器 get set
 # 非资料描述器 仅仅实现了 get 方法, 那么他就是一个非资料描述器
 # 资料描述器 > 实例属性 > 非资料描述器
-# class Age(object):
-#     def __get__(self, instance, owner):
-#         print("get")
-#
-#     def __set__(self, instance, value):
-#         print("set")
-#
-#     def __delete__(self, instance):
-#         print("delete")
-#
-#
-# class Person(object):
-#     age = Age()
-#     def __init__(self):
-#         self.age = 10
-#
-# p = Person()
-#
-# p.age = 10
-# print(p.age)
-# # del p.age
-#
-# print(p.__dict__)
+
+class Age(object):  #它就是一个资料描述器
+    def __get__(self, instance, owner):
+        print("get")
+
+    def __set__(self, instance, value):
+        print("set")
+
+    def __delete__(self, instance):
+        print("delete")
 
 
+class Person(object):
+    age = Age()
+    def __init__(self):
+        self.age = 10
 
+p = Person()
 
-# ----------------------------描述器-值的存储问题------------------------------------
-#
-# class Person:
-#     def __init__(self):
-#         self.__age = 10
-#
-#     def get_age(self):
-#         return self.__age
-#
-#     def set_age(self, value):
-#         if value < 0:
-#             value = 0
-#         self.__age = value
-#
-#     def del_age(self):
-#         print("del age")
-#         del self.__age
-#
-#     age = property(get_age, set_age, del_age)
-#
-# p = Person()
-# p.age = 10
-# print(p.age)
+p.age = 10
+print(p.age)
 # del p.age
 
+print(p.__dict__)
+
+print("----------------------------描述器-值的存储问题------------------------------------")
+class Age(object):
+    def __get__(self, instance, owner):
+        print("get")
+        return instance.v  #取值要用instance,因为age是共享的,使用self会使所有的实例对象操作的都是一个age
+
+    def __set__(self, instance, value):
+        print("set", self, instance, value)
+        instance.v = value
+
+    def __delete__(self, instance):
+        print("delete")
+        del instance.v
 
 
-# class Age(object):
-#     def __get__(self, instance, owner):
-#         print("get")
-#         return instance.v
-#
-#     def __set__(self, instance, value):
-#         print("set", self, instance, value)
-#         instance.v = value
-#
-#     def __delete__(self, instance):
-#         print("delete")
-#         del instance.v
-#
-#
-# class Person(object):
-#     age = Age()
-#
-#
-# p = Person()
-# p.age = 10
-# print(p.age)
-# # del p.age
-#
-# p2 = Person()
-# p2.age = 11
-# print(p2.age)
-# print(p.age)
-
-# ----------------------------使用类, 实现装饰器------------------------------------
+class Person(object):
+    age = Age()  #这里age在实例对象中,是共享的
 
 
-# def check(func):
-#     def inner():
-#         print("登录验证")
-#         func()
-#     return inner
-# class check:
-#     def __init__(self, func):
-#         self.f = func
-#
-#     def __call__(self, *args, **kwargs):
-#         print("登录验证")
-#         self.f()
-#
-# @check
-# def fashuoshuo():
-#     print("发说说")
-# # fashuoshuo = check(fashuoshuo)
-#
-# fashuoshuo()
-#
-# x = "abc"
-# y = [x]
-# z = [x, y]
-# import objgraph
-# # objgraph.show_refs(y, filename='test.png')
-# objgraph.show_refs(z, filename="test.png")
+p = Person()
+p.age = 10
+print(p.age)
+# del p.age
+
+p2 = Person()
+p2.age = 11
+print(p2.age)
+
+#再次检测p的age,看是否被p2改变了
+print(p.age)
+
+print("----------------------------使用类, 实现装饰器------------------------------------")
+#需求,在发说说前,增加一个登陆验证的功能
+#方式1:使用闭包实现
+def check(func):
+    def inner():
+        print("登录验证")
+        func()
+    return inner
+
+@check
+def fashuoshuo():
+    print("发说说")
+
+# fashuoshuo = check(fashuoshuo)  #这种写法,相当于上边加了@check
+
+fashuoshuo()
+
+#方式2: 使用类实现装饰器
+class checkLei:
+    def __init__(self, func):
+        self.f = func
+
+    def __call__(self, *args, **kwargs):
+        print("登录验证")
+        self.f()
+
+# @checkLei
+def fashuoshuo2():
+    print("发说说2")
+
+fashuoshuo2 = check(fashuoshuo2)
+fashuoshuo2()
+
+print("----------------------------对象的生命周期------------------------------------")
+class Person:
+    # def __new__(cls, *args, **kwargs):
+    #     print("新建一个对象,但是,被我拦截了")
+
+    def __init__(self):
+        print("初始化方法")
+        self.name = "fh"
+    def __del__(self):
+        print("这个对象被释放了")
+
+p = Person()
+print(p)
+print(p.name)
+
+print("----------------------------监听对象声明周期的方法-小案例------------------------------------")
+# Person, 打印一下, 当前这个时刻, 由Person类, 产生的实例, 由多少个
+# 创建了一个实例, 计数 + 1, 如果, 删除了一个实例, 计数 - 1
+class Pet:
+    __petCount = 0
+    def __init__(self):
+        Pet.__petCount += 1
+
+    def __del__(self):
+        self.__class__.__petCount -= 1 # 等价于 Pet.__personCount -= 1
+
+    @classmethod #定义一个类方法
+    def log(cls):
+        print("当前的pet的个数是%d个" % cls.__petCount)
+
+Pet.__petCount = 100 #私有属性,不让他在外部改动
+p = Pet()
+p2 = Pet()
+Pet.log()
+del p
+del p2
+Pet.log()
