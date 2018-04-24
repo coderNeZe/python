@@ -36,6 +36,9 @@ nums = [1, 2, 3, 4, 5]
 #表达式 for 变量 in 列表
 #表达式 for 变量 in 列表 if 条件
 # resultList = [num ** 2 for num in nums if num % 2 != 0]
+#列表生成式
+a = [x*2 for x in range(10)]  #取0到10的数字,然后再每个数字乘以2
+print(a)
 resultList = [num ** 2 for num in nums for num2 in nums]
 print(resultList)
 

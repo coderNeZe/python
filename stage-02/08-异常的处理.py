@@ -26,7 +26,7 @@ print("--------------------------------合并并处理多个异常--------------
 try :
     # 1 / 0
     print(name)
-except (ZeroDivisionError,NameError) as e: #这种方式还是只能处理一个异常
+except (ZeroDivisionError,NameError) as e: #这种方式还是只能处理一个异常,注意一定要带括号
     print("xxxx",e)
 
 # except(Exception): #如果不知道错误会抛出哪种异常,直接写Exception就行
