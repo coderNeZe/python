@@ -1,1 +1,1 @@
-num = 222
+num = "我是Tool2里的num"

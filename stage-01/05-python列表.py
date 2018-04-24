@@ -39,6 +39,8 @@ nums = [1, 2, 3, 4, 5]
 #列表生成式
 a = [x*2 for x in range(10)]  #取0到10的数字,然后再每个数字乘以2
 print(a)
+b = [(i,j) for i in range(3) for j in range(2)]#每执行一次i,j要执行两次 ,相当于循环嵌套
+print(b) #[(0, 0), (0, 1), (1, 0), (1, 1), (2, 0), (2, 1)]
 resultList = [num ** 2 for num in nums for num2 in nums]
 print(resultList)
 
