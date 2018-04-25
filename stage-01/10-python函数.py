@@ -6,7 +6,7 @@ def sum(num1,num2):
 sum(4,5)
 
 #不定长参数  方式1: 加*号 传过来的是个元祖
-def mySum(*t):
+def mySum(*t): #其实也是不定长参数
     print(t,type(t))
     result = 0
     for v in t:
@@ -17,6 +17,17 @@ def mySum(*t):
 mySum(1,2,3,100)
 
 #不定长参数  方式2: 加**号 传递参数的时候可以指定一个关键字
+print("================**的使用====================")
+def test(a,b,c = 33,*args,**kwargs) :
+    print(a)
+    print(b)
+    print(c)
+    print(args)
+    print(kwargs)
+test(11,22,33,task=99,done=99)
+
+print("================**的使用拆包装包方式1====================")
+
 def mySum1(**k):
     print(k,type(k))
 mySum1(name="wfh",age = 18)
@@ -25,16 +36,26 @@ mySum1(name="wfh",age = 18)
 def mySum2(a, b, c, d):
     print(a + b + c + d)
 
-def test(*args):
-    print(args)
-
-    # 拆包
-    print(*args)
+def test11(*args):
+    print(args) #(1, 2, 3, 4)  传过来的是不定长参数,也就是元组
+    print(*args) #1 2 3 4  # 拆包
     #拆包进行调用
     mySum2(*args)
 
-test(1, 2, 3, 4)#这一句其实相当于装包
+test11(1, 2, 3, 4)#这一句其实相当于装包
 
+#拆包的理解
+def test22(a,b,c = 33,*args,**kwargs) :
+    print(a)
+    print(b)
+    print(c)
+    print(args)
+    print(kwargs)
+a = (44,55,66)
+b = {"name":"wfh","age":18}
+test22(11,22,33,*a,**b)  #在这里把a元组和b字典就行拆包后,传递过去
+
+print("================**的使用拆包装包方式2====================")
 #不定长参数,拆包装包方式2
 def mySum4(a,b):
      print(a)
@@ -65,7 +86,6 @@ def change(num):
     # print(num)
     num = 666 #因为num是不可变的,系统会自动开辟一个空间,去存储,可以打印下前后的地址看下就明白了
     print(id(num))
-
 
 b = 10
 print(id(b))#相当于打印地址
@@ -171,15 +191,21 @@ newFunc = lambda x, y : x + y
 print(newFunc(4, 5))
 
 
-
-l = [{"name": "sz", "age": 18}, {"name": "sz2", "age": 19}, {"name": "sz3", "age": 18.5}]
+l = [{"name": "fh", "age": 18}, {"name": "fh2", "age": 19}, {"name": "fh3", "age": 18.5}]
 
 # def getKey(x):
 #     return x["name"]
 
-# result = sorted(l, key=getKey)
-result = sorted(l, key=lambda x: x["age"])
+# result = sorted(l, key = getKey)
+result = sorted(l, key = lambda x : x["age"])
 print(result)
+
+print("------------------------匿名函数当参数-------------------------------")
+def sum1(a,b,func):
+    result = func(a,b)
+    return  result
+
+print(sum1(11,22,lambda x,y:x*y))
 
 
 print("------------------------闭包-------------------------------")

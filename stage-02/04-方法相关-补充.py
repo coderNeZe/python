@@ -14,6 +14,45 @@ p._Person__run()
 
 print(Person.__dict__)
 
+print("==========================__new__==================")
+class Dog2():
+    def __init__(self):
+        print("---init方法----")
+    def __del__(self):
+        print("----del方法---")
+    def __str__(self):
+        print("对象的描述信息")
+    # 如果子类实现了new方法,则必须调用父类的new方法(如果不调用父类,会覆盖父类的new方法,而子类根本就没有创建对象的操作)
+    def __new__(cls, *args, **kwargs):
+        print("---new方法---")
+        return object.__new__(cls)
+d = Dog2()
+'''
+#相当于做了3件事情 
+1.调用__new__方法创建对象,然后找一个变量接受__new__的返回值(就是__new__里面的返回值),这个返回值表示创建出来对象的引用
+2.__init(刚刚创建出来的对象的引用)
+3.返回对象的引用(就是d)
+'''
+
+print("==========================单例==================")
+class Stu():
+    __instance= None
+
+    def __new__(cls, *args, **kwargs):
+        if cls.__instance == None:
+            cls.__instance = object.__new__(cls)
+            return cls.__instance
+        else:
+            return cls.__instance
+
+    def __init__(self,name):
+        self.name = name
+
+a = Stu("小红")
+b = Stu("小兰")
+print(id(a),a.name,id(b),b.name)
+
+
 print("==========================内置的特殊方法==================")
 print("----------__str__---------")
 #__str__: 使用字符串描述这个类产生的实例
