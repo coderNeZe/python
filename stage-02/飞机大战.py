@@ -1,7 +1,7 @@
-import pygame
+import requests
 
 def main():
-    screen = pygame.display.set_mode((480,852),0,32)
+    # screen = pygame.display.set_mode((480,852),0,32)
 
     pass
 
