@@ -639,3 +639,54 @@ Pet.log()
 del p
 del p2
 Pet.log()
+
+print("----------------------------map函数------------------------------------")
+#映射函数
+#函数需要一个参数
+m = map(lambda x: x * x, [1, 2, 3])
+for tmp in m:
+    print(tmp)
+
+print("*"*3)
+#函数需要两个参数
+m = map(lambda x,y:x+y,[1,2,3],[4,5,6])
+for tmp in m:
+    print(tmp)
+
+print("*" * 3)
+def f1(x,y):
+    return (x,y)
+l1 = [0,1,2,3,4,5,6]
+l2 = ['sun','m','t','w','t','f','s']
+l3 = map(f1,l1,l2)
+print(list(l3))
+
+print("----------------------------filter函数------------------------------------")
+#过滤函数
+f = filter(lambda x:x%2,[1,2,3,4])
+for temp in f:
+    print(temp)
+
+print("----------------------------reduce函数------------------------------------")
+#会对参数序列中元素进行累积
+from functools import  reduce
+r = reduce(lambda x,y:x+y,[1,2,3,4]) #1给x,2给y,结果3传给x,然后再取出3,给y,再加,依次类推
+print(r)
+
+r = reduce(lambda x,y:x+y,[1,2,3,4],5) #如果后边有值,则是把5给x,列表中1给y,和是6给x,再取2给y,然后相加再给x,依次类推
+print(r)
+
+r = reduce(lambda x,y:x+y,['aa','bb','cc'],'dd') #把dd当做x,aa当做y,之后组合成ddaa,然后ddaa当做x,bb当做y,再组成ddaabb,依次类推
+print(r)
+
+print("----------------------------sorted函数------------------------------------")
+#sorted是内建函数
+ss = sorted(['dd','aa','cc','bb'])
+print(ss)
+
+#和sort函数区别
+aa = [113,2,44,3,2,5,6,66,7,788]
+aa.sort()
+print(aa)
+aa.sort(reverse=True)
+print(aa)

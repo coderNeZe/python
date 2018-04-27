@@ -137,6 +137,17 @@ print(newFunc, type(newFunc))
 
 newFunc(1, 2)
 
+print("-"*10)
+#其实偏函数还会帮助你去省略某些值得传递
+def showarg(*args,**kwargs):
+    print(args)
+    print(kwargs)
+
+p1 = functools.partial(showarg,1,2,3)
+p1() #(1, 2, 3) {}    #此时p1什么也不传,1,2,3还是会传过去,就相当于指定默认值了
+p1(4,5,6) #(1, 2, 3, 4, 5, 6) {}
+p1(name = "fh",age = 18)  #(1, 2, 3)   {'name': 'fh', 'age': 18}
+
 print("------------------------高阶函数-------------------------------")
 #函数中的一个参数是函数,就是高阶函数,例如系统提供的sort函数
 l = [{"name": "fh", "age": 18}, {"name": "fh1", "age": 19}, {"name": "fh2", "age": 18.5}]
