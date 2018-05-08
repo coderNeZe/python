@@ -14,16 +14,17 @@ running = True
 while True:
 
     # 调用 select 函数，阻塞等待
+    # select的三个参数分别表示,检测这个列表中的套接字是否可以收数据;  检测这个列表中的套接字是否可以发数据;  检测列表中的套接字是否产生了异常
     readable, writeable, exceptional = select.select(inputs, [], [])
 
     # 数据抵达，循环
-    for sock in readable:
+    for sock in readable:  #readable里存的都是可以收的套接字
 
         # 监听到有新的连接
-        if sock == server:
-            conn, addr = server.accept()
+        if sock == server: #如果当前的套接字是刚刚放入列表的套接字
+            newClientSock, addr = server.accept()
             # select 监听的socket
-            inputs.append(conn)
+            inputs.append(newClientSock)  #把新连入的客户端放入inputs中
 
         # 监听到键盘有输入
         elif sock == sys.stdin:
