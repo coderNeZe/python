@@ -158,6 +158,7 @@ print("----------------------小案例-------------------------")
 #     key = parse.urlencode({"kw": kw})
 #     fullurl = url + key
 #     tiebaSpider(fullurl, beginPage, endPage)
+
 print("----------------------Ajax加载方式的数据获取-------------------------")
 # from urllib import request,parse
 #
