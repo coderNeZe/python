@@ -3,44 +3,68 @@ from urllib import request,parse
 from lxml import html
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
-# import matplotlib.pyplot as plt
-
-
-
-
-
+flag = True
 
 class Spider:
     def __init__(self):
-        pass
+        self.pandan_data = pd.DataFrame()
+        self.index = 0
 
     def startLoadData(self):
         """
         作用: 或者资源的方法
         """
         print("准备请求....")
-        url = "http://pm25.in/"#"file:///Users/Ne/Desktop/data.html" #
+        if flag:
+            url = "file:///Users/Ne/Desktop/data.html"
+        else:
+            url = "http://pm25.in/"
         content = self.requestFun(url)
         link_list = content.xpath('///div[@class="all"]/div[@class="bottom"]//@href')
         for link in link_list:
-            sub_url = "http://pm25.in/"+link #"file:///Users/Ne/Desktop/subdata.html"#"http://pm25.in/" + link#"
+            if flag:
+                sub_url = "file:///Users/Ne/Desktop/subdata.html"
+            else:
+                sub_url = "http://pm25.in/" + link
             subcontent = self.requestFun(sub_url)
             city_name = subcontent.xpath('///div[@class="city_name"]/h2/text()')[0]
-            # content_info = subcontent.xpath('//div[@class="span12 data"]/div[@class="span1"]//text()')
             header_info = subcontent.xpath('//div[@class="span12 data"]//div[@class="caption"]/text()')
-            number_info = subcontent.xpath('//div[@class="span12 data"]//div[@class="value"]/text()')
-            header = self.__disposeList(header_info)
-            number = self.__disposeList(number_info)
-            pd.DataFrame()
-            # city_dic = map(self.__listTodic,header,number)
-            # city_list_info = list(city_dic)
-            # city_list_info.insert(0,{"city":city_name})
-            # self.writePage(city_list_info,"city.scv")
+            data_info = subcontent.xpath('//div[@class="span12 data"]//div[@class="value"]/text()')
+            header_list = self.__disposeList(header_info)
+            data_list = self.__disposeList(data_info)
+            header_list.insert(0,"city")
+            data_list.insert(0,city_name)
+            self.__handleData(header_list,data_list)
 
-    def sortList(self,x):
-        print(x)
-        return x[1]["AQI"]
+    def __handleData(self,head_list,data_list):
+        self.index += 1
+        if self.index > 50:
+            self.writePage(self.pandan_data, "cityAQI.scv")
+            self.pandan_data.drop
+            self.index = 0
+            self.pandan_data = pd.DataFrame(np.array(data_list).reshape((1, 9)), columns=head_list)
+        else:
+            if self.pandan_data.empty:
+                self.pandan_data = pd.DataFrame(np.array(data_list).reshape((1,9)), columns=head_list)
+            else:
+                temp_data = pd.DataFrame(np.array(data_list).reshape((1,9)), columns=head_list)
+                self.pandan_data = self.pandan_data.append(temp_data,ignore_index=True)
+
+
+
+    def __draw_picture(self):
+        n = 50
+        x = np.arange(n)
+        y = 100
+        plt.bar(x,y,width=5,facecolor="#9999ff",edgecolor="white")
+        plt.xlim(0, 50)
+        y_pos = np.arange(len("people"))
+        plt.xticks(y_pos, "people")
+        plt.title('城市AQI排行表')
+        plt.show()
+
 
     def __disposeList(self,list):
         temp_list = []
@@ -49,9 +73,6 @@ class Spider:
             if data != "":
                 temp_list.append(data)
         return temp_list
-
-    def __listTodic(self,x,y):
-        return {x:y}
 
     def requestFun(self,url):
         """
@@ -70,23 +91,13 @@ class Spider:
 
     def writePage(self,item,name):
         """
-            把每条段子逐个写入文件里
-            item: 处理后的每条段子
+            把每条数据逐个写入文件里
         """
         # 写入文件内
         print("正在写入数据....")
         with open(name, "a+") as f:
-            f.writelines(str(item )+ "\n")
+            f.writelines(str(item)+ "\n")
         print("写入完成")
-
-    def sortData(self):
-        with open("city.scv","r+") as f:
-            list = f.readlines()
-
-        print(list)
-        # result = sorted(list, key=lambda x:x[1])
-        # self.writePage(result,"sort.scv")
-
 
     def startWork(self):
         self.startLoadData()
@@ -94,7 +105,6 @@ class Spider:
 if __name__ == '__main__':
     s = Spider()
     s.startWork()
-    # s.sortData()
 
 
 
