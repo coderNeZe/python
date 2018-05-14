@@ -3,9 +3,11 @@ from urllib import request,parse
 from lxml import html
 import numpy as np
 import matplotlib.pyplot as plt
-from pylab import mpl
+from matplotlib.font_manager import FontManager, FontProperties
 
 flag = True
+analyze_data = 50
+
 
 class Spider:
     def __init__(self):
@@ -69,7 +71,7 @@ class Spider:
 
             total_list.append(data_list)
         self.__handleData(total_list)
-        self.draw_picture(total_list[1:51])
+        self.draw_picture(total_list[1:len(total_list)])
 
     def __handleData(self,total_list):
         total_list.sort(key=lambda x:int(x[1]))
@@ -83,7 +85,7 @@ class Spider:
         """
         # 写入文件内
         print("正在写入数据....")
-        with open("cityAQI1.csv", "a+", encoding="utf-8", newline='') as f:
+        with open("cityAQI.csv", "a+", encoding="utf-8", newline='') as f:
             f.writelines(str(item)+"\n")
         print("写入完成")
 
@@ -91,28 +93,32 @@ class Spider:
         y_list = []
         city_list = []
         for list in new_list:
-            y_list.append(int(list[1])+np.random.randint(10))
+            if int(list[1]) == 0:
+                continue
+            y_list.append(int(list[1]))
             city_list.append(list[0])
+            if int(len(city_list)) == analyze_data:
+                break
 
-        n = int(len(new_list)) - 1
-        x = np.arange(n)
-        y = [i for i in range(50)]
-        print(y,len(y))
-        print(y_list,len(y_list))
-        plt.bar(x, y, facecolor="#9999ff", edgecolor="white")
+        x = np.arange(analyze_data)
 
-        # plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
-        # plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
-        #
-        #
-        # plt.xticks(np.arange(int(len(city_list))),city_list)
-        #
-        # plt.title(u'空气质量最好的50个城市({0})'.format(self.update_time))
+        random_colors = np.random.rand(analyze_data,3)  #facecolor="#9999ff"
+        print(random_colors)
+        plt.bar(x, y_list, colors = random_colors, edgecolor="white")
 
-        # l1, = plt.plot(x,y_list,label='AQI')
-        # plt.legend(handles=[l1,],loc='best')
+        plt.xticks(np.arange(int(len(city_list))),city_list,rotation=270,fontproperties=self.__getChineseFont(),fontsize=8)
+        plt.ylim(0,max(y_list)+5)
+
+        plt.title('空气质量最好的50个城市({0})'.format(self.update_time),fontproperties=self.__getChineseFont())
+
+        l1, = plt.plot(1,0,label='AQI',color='#9999ff',linewidth=5.0)
+        plt.legend(handles=[l1,],loc='best')
 
         plt.show()
+
+    @staticmethod
+    def __getChineseFont():
+        return FontProperties(fname='/System/Library/Fonts/PingFang.ttc')
 
     def get_list_info(self,index,list):
         return list[index]
