@@ -9,7 +9,7 @@ import csv
 
 flag = True
 analyze_data = 50
-cityAQI_name= "cityAQI_name"
+cityAQI_name= "cityAQI_name.csv"
 
 
 class Spider:
@@ -73,10 +73,6 @@ class Spider:
             data_list.insert(0,city_name)
 
             total_list.append(data_list)
-        self.__handleData(total_list)
-
-    def __handleData(self,total_list):
-        total_list.sort(key=lambda x:int(x[1]))
         total_list.insert(0, self.header_list)
         for info in total_list:
             self.writeCityAQIinfo(info,cityAQI_name)
@@ -92,43 +88,20 @@ class Spider:
             writer_tool.writerow (item)
         print("写入完成")
 
-    def draw_picture(self,filepath):
-        pandas_data = pd.read_csv("cityAQI.csv")
-        # filter_data = pandas_data["AQI"]
-        # print(filter_data)
-        top50_data = pandas_data.head(analyze_data+1)
-        print(top50_data)
-
-        # y_list = []
-        # city_list = []
-        # for list in new_list:
-        #     if int(list[1]) == 0:
-        #         continue
-        #     y_list.append(int(list[1]))
-        #     city_list.append(list[0])
-        #     if int(len(city_list)) == analyze_data:
-        #         break
+    def draw_picture(self):
+        pandas_data = pd.read_csv(cityAQI_name)
+        print(pandas_data)
+        filter_data = pandas_data["AQI"]
+        print(filter_data)
+        # sort_data = filter_data.sort_values(by='AQI')
+        # top50_data = sort_data.head(analyze_data+1)
         #
         # x = np.arange(analyze_data)
         #
-        # plt.bar(x, y_list)
+        # plt.bar(x, top50_data["AQI"])
         #
-        # plt.xticks(np.arange(int(len(city_list))),city_list,rotation=270,fontproperties=self.__getChineseFont(),fontsize=8)
-        # plt.ylim(0,max(y_list)+5)
-        #
-        # plt.title('空气质量最好的50个城市({0})'.format(self.update_time),fontproperties=self.__getChineseFont())
-        #
-        # l1, = plt.plot(1,0,label='AQI',color='#9999ff',linewidth=5.0)
-        # plt.legend(handles=[l1,],loc='best')
-        #
-        # plt.show()
-
-
-
-        # plt.bar(x, y_list,color='rgb')
-        #
-        # plt.xticks(np.arange(int(len(city_list))),city_list,rotation=270,fontproperties=self.__getChineseFont(),fontsize=8)
-        # plt.ylim(0,max(y_list)+5)
+        # # plt.xticks(np.arange(int(len(city_list))),city_list,rotation=270,fontproperties=self.__getChineseFont(),fontsize=8)
+        # plt.ylim(0,)
         #
         # plt.title('空气质量最好的50个城市({0})'.format(self.update_time),fontproperties=self.__getChineseFont())
         #
@@ -136,8 +109,6 @@ class Spider:
         # plt.legend(handles=[l1,],loc='best')
         #
         # plt.show()
-    # def get_list_info(self,index,list):
-    #     return list[index]
 
     @staticmethod
     def __getChineseFont():
