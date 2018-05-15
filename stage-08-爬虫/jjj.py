@@ -93,11 +93,12 @@ class Spider:
         print("写入完成")
 
     def draw_picture(self,filepath):
-        pandas_data = pd.read_csv("cityAQI.csv")
+        pandas_data = pd.read_csv("cityAQI.csv").head(100)
+        print(pandas_data)
         # filter_data = pandas_data["AQI"]
         # print(filter_data)
-        top50_data = pandas_data.head(analyze_data+1)
-        print(top50_data)
+        # top50_data = pandas_data.head(analyze_data+1)
+        # print(top50_data)
 
         # y_list = []
         # city_list = []

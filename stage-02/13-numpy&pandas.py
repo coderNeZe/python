@@ -172,24 +172,24 @@ print(df2.sort_index(axis=0,ascending=False)) #按行排序
 print(df2.sort_values(by='c')) #按值排序,需要确定是按哪个值
 
 print("---------pandas选择数据-----------")
-dates = pd.date_range('20180101',periods=6)
-ff = pd.DataFrame(np.arange(24).reshape(6,4),index=dates,columns=['a','b','c','d'])
-print(ff)
+# dates = pd.date_range('20180101',periods=6)
+# ff = pd.DataFrame(np.arange(24).reshape(6,4),index=dates,columns=['a','b','c','d'])
+# print(ff)
 # print(ff['a'],ff.a)
 
-#这两种方式都可以
+# #这两种方式都可以
 # print(ff[0:3])
 # print(ff['20180102':'20180103'])
 
-#查看指定的数据
+# # 查看指定的数据
 # print(ff.loc['20180102'])
 # print(ff.loc[:,['a','b']])
-
+#
 # print(ff.iloc[3])  #取数第三行
 # print(ff.iloc[3,1]) #第三行的第一位
 # print(ff.iloc[3:5,1:3]) #第三行到第五行 中第一位到第三位
 # print(ff.iloc[[1, 3, 5], 1:3])
-
+#
 # print(ff.ix[:3,['a','c']])
 
 # print(ff[ff.a > 8])#筛选出a列>8的数据 然后其他列也显示的数据

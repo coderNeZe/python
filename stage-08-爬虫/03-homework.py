@@ -7,7 +7,7 @@ from matplotlib.font_manager import FontManager, FontProperties
 import pandas as pd
 import csv
 
-flag = True
+flag = False
 analyze_data = 50
 cityAQI_name= "cityAQI_name.csv"
 
@@ -88,27 +88,19 @@ class Spider:
             writer_tool.writerow (item)
         print("写入完成")
 
-    def draw_picture(self):
-        pandas_data = pd.read_csv(cityAQI_name)
-        print(pandas_data)
-        filter_data = pandas_data["AQI"]
-        print(filter_data)
-        # sort_data = filter_data.sort_values(by='AQI')
-        # top50_data = sort_data.head(analyze_data+1)
-        #
-        # x = np.arange(analyze_data)
-        #
-        # plt.bar(x, top50_data["AQI"])
-        #
-        # # plt.xticks(np.arange(int(len(city_list))),city_list,rotation=270,fontproperties=self.__getChineseFont(),fontsize=8)
-        # plt.ylim(0,)
-        #
-        # plt.title('空气质量最好的50个城市({0})'.format(self.update_time),fontproperties=self.__getChineseFont())
-        #
-        # l1, = plt.plot(1,0,label='AQI',color='#9999ff',linewidth=5.0)
-        # plt.legend(handles=[l1,],loc='best')
-        #
-        # plt.show()
+    def draw_picture(self,file_name):
+        pandas_data = pd.read_csv(file_name)
+        sort_data = pandas_data.sort_values(by='AQI')
+        filter_data = sort_data[sort_data["AQI"] > 0]
+        filter_data = filter_data.head(analyze_data)
+
+        x = np.arange(analyze_data)
+        plt.bar(x, filter_data["AQI"],color='rgb')
+        plt.xticks(np.arange(int(len(filter_data.city))),filter_data.city,rotation=270,fontproperties=self.__getChineseFont(),fontsize=8)
+        plt.title('空气质量最好的50个城市({0})'.format(self.update_time),fontproperties=self.__getChineseFont())
+        l1, = plt.plot(1,0,label='AQI',color='#9999ff',linewidth=5.0)
+        plt.legend(handles=[l1,],loc='best')
+        plt.show()
 
     @staticmethod
     def __getChineseFont():
@@ -116,6 +108,6 @@ class Spider:
 
 if __name__ == '__main__':
     s = Spider()
-    s.startLoadData()
-    s.draw_picture()
+    # s.startLoadData()
+    s.draw_picture(cityAQI_name)
 
