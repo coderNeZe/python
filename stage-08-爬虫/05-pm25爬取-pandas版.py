@@ -6,10 +6,11 @@ import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontManager, FontProperties
 import pandas as pd
 import csv
+import os
 
 flag = True
 analyze_data = 50
-cityAQI_name= "/Users/Ne/python/stage-08-爬虫/resource/cityAQI_name.csv"
+cityAQI_name= "/Users/Ne/python/stage-08-爬虫/resource/cityAQI_name1.csv"
 
 class Spider:
     def __init__(self):
@@ -83,8 +84,8 @@ class Spider:
         # 写入文件内
         print("正在写入数据....")
         with open(file_name, "a+", encoding="utf-8", newline='') as f:
-            writer_tool =  csv.writer(f)
-            writer_tool.writerow (item)
+            writer_tool = csv.writer(f)
+            writer_tool.writerow(item)
         print("写入完成")
 
     def draw_picture(self,file_name):
@@ -94,7 +95,7 @@ class Spider:
         filter_data = filter_data.head(analyze_data)
 
         x = np.arange(analyze_data)
-        plt.bar(x, filter_data["AQI"],color='rgb')
+        plt.bar(x, filter_data["AQI"])
         plt.xticks(np.arange(int(len(filter_data.city))),filter_data.city,rotation=270,fontproperties=self.__getChineseFont(),fontsize=8)
         plt.title('空气质量最好的50个城市({0})'.format(self.update_time),fontproperties=self.__getChineseFont())
         l1, = plt.plot(1,0,label='AQI',color='#9999ff',linewidth=5.0)
@@ -102,11 +103,17 @@ class Spider:
         plt.show()
 
     @staticmethod
+    def checkfile(file_path):
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
+    @staticmethod
     def __getChineseFont():
         return FontProperties(fname='/System/Library/Fonts/PingFang.ttc')
 
 if __name__ == '__main__':
     s = Spider()
+    s.checkfile(cityAQI_name)
     s.startLoadData()
     s.draw_picture(cityAQI_name)
 

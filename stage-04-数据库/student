@@ -1,0 +1,102 @@
+select distinct id,gen from students    //distinct会去除重复的数据
+//比较运算符
+select * from students where id=3
+select * from subjects where id<=4
+select * from students where sname != "黄蓉"
+select * from students where isDelete = 0
+
+//逻辑运算符
+//查询编号大于3的女同学
+select * from students where id>3 and gender=0
+//查询编号小于4或没有被删除的同学
+select * from students where id<4 or isDelete=0
+
+//模糊查询
+//查询姓黄的同学
+select * from students where sname like "黄%"
+//查询姓黄且名字是一个字的同学
+select * from students where sname like "黄_"
+//查询中间名字是龙的
+select * from students where sname like "%龙%"
+//查询姓黄或者叫静的同学
+select * from students where sname like "黄%" or sname like "%静%"
+
+//范围查询
+//查询编号是1,3,8的学生  in
+select * from students where id in(1,3,8)
+//查询3-8的学生  between....and...
+select * from students where id between 3 and 8
+//查询3-8的男生
+select * from students where id between 3 and 8 and gender = 1
+
+//空判断
+select * from students where birthday is null
+//非空
+select * from students where birthday is not null and gender = 0
+
+//聚合
+//为了快读得到统计数据,提供5个聚合函数
+//count(*)标书计算总行数
+//查询学生总数
+select count(*) from students
+//max(列)
+//查询女生编号的最大值
+select max(id) from students where gender = 0
+//min(列)
+//查询未删除学生的最小值
+select min(id) from student where isDelete = 0
+//查询未删除学生id最小值的学生新 (子查询)
+select * from students where id = (select min(id) from students where isDlete = 0)
+//sum(列)
+//查询男生的编号之和
+select sum(id) from students where gender = 1
+//avg(列)
+//查询未删除女生的平均值
+select avg(id) from students where isdelete = 0 and gender = 0
+
+//分组
+//查询男女生总数
+select gender,count(*) from students group by gender
+//筛选  having
+select gender,count(*) from students groupp by gender having count(*)>2
+
+//排序 asc(默认) 升序  desc 降序
+//查询未删除学号男生,降序
+select * from students where gender = 0  and isdelect=0 order by id des
+//查询未删除科目信息,按名称升序
+select * from subjects where isdelect = 0 order by title
+
+//分页  limit
+select * from students limit 1,3
+//已知每个显示m条数据,当前是第n页
+n从1开始
+select * from students where isdelete = 0 limit (n-1)*m,m
+
+
+create table scores(
+    id int auto_increment primary key not null,
+    score decimal(4,1)  #浮点数,一共四位,小数1位
+    stuid int,
+    subid int,
+    foreign key(stuid) reference students(id)
+    foreign key(subid) reference subjects(id))
+
+insert into scores values(0,100,1,1)
+
+//查询学生名字对应的学科对应的成绩
+select students.name,subject.title,scores.score
+from scores
+inner join students on scores.stuid = students.name
+inner join subjects on scores.subid = subjects.id
+
+
+
+
+
+
+
+
+
+
+
+
