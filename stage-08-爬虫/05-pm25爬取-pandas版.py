@@ -7,10 +7,9 @@ from matplotlib.font_manager import FontManager, FontProperties
 import pandas as pd
 import csv
 
-flag = False
+flag = True
 analyze_data = 50
-cityAQI_name= "cityAQI_name.csv"
-
+cityAQI_name= "/Users/Ne/python/stage-08-爬虫/resource/cityAQI_name.csv"
 
 class Spider:
     def __init__(self):
@@ -46,7 +45,7 @@ class Spider:
         """
         print("准备请求....")
         if flag:
-            url = "file:///Users/Ne/python/stage-08-爬虫/data.html"
+            url = "file:///Users/Ne/python/stage-08-爬虫/resource/data.html"
         else:
             url = "http://pm25.in/"
         content = self.requestFun(url)
@@ -54,7 +53,7 @@ class Spider:
         total_list = []
         for link in link_list:
             if flag:
-                sub_url = "file:///Users/Ne/python/stage-08-爬虫/subdata.html"
+                sub_url = "file:///Users/Ne/python/stage-08-爬虫/resource/subdata.html"
             else:
                 sub_url = "http://pm25.in/" + link
             subcontent = self.requestFun(sub_url)
@@ -108,6 +107,6 @@ class Spider:
 
 if __name__ == '__main__':
     s = Spider()
-    # s.startLoadData()
+    s.startLoadData()
     s.draw_picture(cityAQI_name)
 
