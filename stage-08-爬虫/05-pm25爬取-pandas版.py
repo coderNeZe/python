@@ -10,7 +10,7 @@ import os
 
 flag = True
 analyze_data = 50
-cityAQI_name= "/Users/Ne/python/stage-08-爬虫/resource/cityAQI_name1.csv"
+cityAQI_name= "/Users/Ne/python/stage-08-爬虫/resource/cityAQI_name.csv"
 
 class Spider:
     def __init__(self):
@@ -64,6 +64,7 @@ class Spider:
                 header_info = subcontent.xpath('//div[@class="span12 data"]//div[@class="caption"]/text()')
                 self.header_list = self.__disposeList(header_info)
                 self.header_list.insert(0, "city")
+                self.writeCityAQIinfo(self.header_list, cityAQI_name)
 
             #获取城市的名字
             city_name = subcontent.xpath('//div[@class="city_name"]/h2/text()')[0]
@@ -71,11 +72,7 @@ class Spider:
             data_info = subcontent.xpath('//div[@class="span12 data"]//div[@class="value"]/text()')
             data_list = self.__disposeList(data_info)
             data_list.insert(0,city_name)
-
-            total_list.append(data_list)
-        total_list.insert(0, self.header_list)
-        for info in total_list:
-            self.writeCityAQIinfo(info,cityAQI_name)
+            self.writeCityAQIinfo(data_list, cityAQI_name)
 
     def writeCityAQIinfo(self,item,file_name):
         """
@@ -86,7 +83,7 @@ class Spider:
         with open(file_name, "a+", encoding="utf-8", newline='') as f:
             writer_tool = csv.writer(f)
             writer_tool.writerow(item)
-        print("写入完成")
+            print("写入完成")
 
     def draw_picture(self,file_name):
         pandas_data = pd.read_csv(file_name)
@@ -95,7 +92,8 @@ class Spider:
         filter_data = filter_data.head(analyze_data)
 
         x = np.arange(analyze_data)
-        plt.bar(x, filter_data["AQI"])
+        colors = np.random.rand(analyze_data * 3).reshape((analyze_data,3))
+        plt.bar(x, filter_data["AQI"],color = colors)
         plt.xticks(np.arange(int(len(filter_data.city))),filter_data.city,rotation=270,fontproperties=self.__getChineseFont(),fontsize=8)
         plt.title('空气质量最好的50个城市({0})'.format(self.update_time),fontproperties=self.__getChineseFont())
         l1, = plt.plot(1,0,label='AQI',color='#9999ff',linewidth=5.0)
