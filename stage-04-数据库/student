@@ -89,13 +89,19 @@ from scores
 inner join students on scores.stuid = students.name
 inner join subjects on scores.subid = subjects.id
 
+//查询男生的姓名,总分
+select name,sum(score)
+from students
+inner join scores on students.id = scores.stuid
+where gender =1
+group by name
 
-
-
-
-
-
-
+//自连接
+selet sheng.id as sid,sheng.title as stitle
+shi.id as shiid,shi.title as shititle
+from areas as sheng
+inner join areas as shi on sheng.id=shi.id
+where sheng.pid is null and sheng.title='山西省'
 
 
 
