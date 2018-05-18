@@ -1,3 +1,10 @@
+//创建表
+create table users(
+    id int auto_increment primary key not null,
+    name varchar(20),
+    passwd char(40))
+
+
 select distinct id,gen from students    //distinct会去除重复的数据
 //比较运算符
 select * from students where id=3
