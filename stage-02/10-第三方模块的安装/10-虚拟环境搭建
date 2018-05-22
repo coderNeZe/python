@@ -21,6 +21,60 @@
     pip freeze >> mingzi.txt
 
 2.别人使用的时候,先创建一个虚拟环境,并激活
-3.执行pip install -r mingzi.text
+3.执行pip install -r mingzi.txt
+
+
+在pycharm中也可以新建project时,创建虚拟环境
+1.在创建的时候,勾选虚拟环境的选项
+2.添加第三方库的时候,跟正常在pycharm中添加库一样,只是要注意选择虚拟环境
+
+
+集中式虚拟环境管理  virtualenvwrapper-win
+创建虚拟环境
+    mkvirtualenv 虚拟环境名称
+查看所有的虚拟环境
+    lsvirtualenv
+
+切换虚拟环境
+    workon 虚拟环境名称
+
+关闭虚拟环境
+    deactivate
+
+删除虚拟环境
+    rmvirtualenv
+
+更加基于项目的虚拟环境管理 pipenv
+安装
+    pip3 install pipenv
+使用步骤
+1.创建虚拟环境
+    pipenv --three
+    查看使用虚拟环境的项目的位置 pipenv --where
+    查看虚拟环境的位置 pipenv --venv
+    查看当前使用的解释器 pipenv --py
+2.激活虚拟环境
+    pipenv shell
+3.在激活状态下,想干啥就干啥
+    执行代码 python3 xxx.py
+    安装包 pipenv install 名称
+    查看包的依赖 pipenv graph
+    卸载包 pipenv uninstall 名称
+4.退出虚拟环境
+    exit
+5.删除虚拟环境
+    先进入响应的目录
+    pipenv --rm
+
+pipenv 项目交接
+   给 别人  项目 pipfile  pipfile.lock
+
+别人拿到使用时
+    进入项目目录 然后 pipenv install
+    激活 pipenv shell
+    然后执行程序就行
+
+
+
 
 
