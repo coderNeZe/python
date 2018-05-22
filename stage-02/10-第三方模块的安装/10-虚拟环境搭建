@@ -1,0 +1,26 @@
+是一个第三方包: virtualenv
+安装命令 pip3 install virtualenv
+
+使用步骤:
+1.创建一个局部的隔离的虚拟环境
+    virtualenv 虚拟环境的名称
+    如果我想使用2.7的python解释器创建虚拟环境呢?
+        可选项:virtualenv -p python2.7版本的路径 虚拟环境的名字
+    如果自己创建了一个虚拟环境,当使用第三方库时,如果没加下面这句话,会仅仅去自己的虚拟环境中找,如果加了下面这句话,当前虚拟环境如果没有,会去你pyhton本地的库中去找:
+        virtualenv --system-site-packages ENV
+2.激活虚拟环境
+    进入生成目录bin目录下
+    执行  source activate
+3.在激活状态下,想干啥就干啥
+4.退出虚拟环境
+5.删除虚拟环境
+
+
+虚拟环境交接
+1.先冻结,然后会生成一个该项目依赖第三方库的列表,再把这个列表导出 (给别人项目和生成的txt就行)
+    pip freeze >> mingzi.txt
+
+2.别人使用的时候,先创建一个虚拟环境,并激活
+3.执行pip install -r mingzi.text
+
+
