@@ -74,6 +74,11 @@ pipenv 项目交接
     激活 pipenv shell
     然后执行程序就行
 
+/Library/Frameworks/Python.framework/Versions/3.6/bin/pipenv
+
+
+python manage.py startapp booktest
+
 
 
 
