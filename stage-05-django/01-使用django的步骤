@@ -27,3 +27,37 @@ django的命令：django-admin startproject
 	python manage.py createsuperuser
 admin的使用admin.py
 	admin.site.register(模型类,admin类)
+
+
+1.先创建一个表:
+连接数据库: mysql -uroot -p
+密码:11111111
+查看所有的表 show databases;
+创建表:create database test2 charset=utf8
+使用表:use test2
+删除表: drop test2;
+查看表所有的字段:show tables
+查看表结构:desc bookinfo
+
+2.修改
+在setting中 修改
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'test2',
+        'USER':'root',
+        'PASSWORD':'11111111',
+        'HOST':'loaclhost',
+        'PORT':'3306',
+    }
+}
+
+3.创建应用 python manage.py startapp booktest
+然后再settting中的INSTALLED_APPS 注册应用
+
+4.在molels中定义所有的模型类
+
+5.开始迁移
+python manage.py makemigrations
+python manage.py migrate
