@@ -9,3 +9,28 @@ Tips： 1、邮箱地址需要验证 2、做好输入内容异常的处理 3、�
 城市：北京  日期：05.22 天气状况：阳了 温度：31度  风向：东南风三到四级  污染指数：217  限号：4
 
 '''
+import tkinter as tk
+import requests
+
+window = tk.Tk()
+window.title('my window')
+window.geometry('300x300')
+
+entry = tk.Entry(window,text='input your text here')
+entry.place(x=20,y=20,anchor='nw')
+
+def chekWeather():
+    url = "http://www.weather.com.cn/"
+    try:
+        headers = { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36"}
+        r = requests.get(url,headers = headers)
+        r.raise_for_status()
+        r.encoding = r.apparent_encoding
+        print(r.text[1000])
+    except:
+        print("信息爬取失败")
+
+b1 = tk.Button(window, text='查询', width=3,height=2, command=chekWeather)
+b1.place(x=220,y=12,anchor='nw')
+
+window.mainloop()

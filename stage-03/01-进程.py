@@ -297,39 +297,39 @@ print("------------------进程池中的Queue------------------")
 #     print("%s End"%os.getpid())
 
 print("------------------使用多进程实现文件的拷贝------------------")
-from multiprocessing import Pool,Manager
-import os
-
-def copyFileTask(name,oldName,newName,queue):
-    fr = open(oldName+"/"+name)
-    fw = open(newName+"/"+name,"w")
-
-    content = fr.read()
-    fw.write(content)
-
-    fr.close()
-    fw.close()
-    queue.put(name)
-
-    pass
-if __name__ == '__main__':
-
-    old_file_name = input("请输入要拷贝的文件夹名字:")
-    new_file_name = os.mkdir(old_file_name+"_复件")
-
-    fileNames = os.listdir(old_file_name)
-
-    pool = Pool(5)
-    queue = Manager().Queue()
-
-    for name in fileNames:
-        pool.apply_async(copyFileTask,args=(name,old_file_name,new_file_name,queue))
-
-    num = 0
-    allNum = len(fileNames)
-    while num < allNum:
-        queue.get()
-        num += 1
-        copyRate = num / allNum
-        print("\r copy的进度是:%.2f%%"%(copyRate*100),end="")
-    print("\n 已经完成copy")
+# from multiprocessing import Pool,Manager
+# import os
+#
+# def copyFileTask(name,oldName,newName,queue):
+#     fr = open(oldName+"/"+name)
+#     fw = open(newName+"/"+name,"w")
+#
+#     content = fr.read()
+#     fw.write(content)
+#
+#     fr.close()
+#     fw.close()
+#     queue.put(name)
+#
+#     pass
+# if __name__ == '__main__':
+#
+#     old_file_name = input("请输入要拷贝的文件夹名字:")
+#     new_file_name = os.mkdir(old_file_name+"_复件")
+#
+#     fileNames = os.listdir(old_file_name)
+#
+#     pool = Pool(5)
+#     queue = Manager().Queue()
+#
+#     for name in fileNames:
+#         pool.apply_async(copyFileTask,args=(name,old_file_name,new_file_name,queue))
+#
+#     num = 0
+#     allNum = len(fileNames)
+#     while num < allNum:
+#         queue.get()
+#         num += 1
+#         copyRate = num / allNum
+#         print("\r copy的进度是:%.2f%%"%(copyRate*100),end="")
+#     print("\n 已经完成copy")
