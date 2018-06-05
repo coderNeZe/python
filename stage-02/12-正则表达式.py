@@ -40,7 +40,19 @@ print(m)
 #提取http://www.baidu.com/
 s = "http://www.baidu.com/message.asp?id=35"
 print(re.sub(r"(http://.+?/).*", lambda x: x.group(1), s))
+#或者
+pattern = re.compile(r"(http://.+?/).*")
+m = pattern.match(s).group(1)
+print(m)
 
+#匹配0-100之间的数字
+re.compile(r"[1-9]?\d?|100$")
+
+#贪婪的问题
+str = '<div><p>岗位职责：</p><p>完成推荐算法、数据统计、接口、后台等服务器端相关工作</p></div>'
+pattern = re.compile(r'</?.+?>')
+m = pattern.sub("",str)
+print("贪婪=====",m)
 
 # #提取单词
 # ss = "hello world ha ha"
@@ -50,8 +62,6 @@ print(re.sub(r"(http://.+?/).*", lambda x: x.group(1), s))
 # print(re.findall(r"\b[a-zA_Z]+\b", ss))
 #
 # '''
-#匹配0-100之间的数字
-re.compile(r"[1-9]?\d?|100$")
 
 # <h1>匹配分组</h1>
 # <h1>(.*)</h1>
@@ -87,9 +97,7 @@ re.compile(r"[1-9]?\d?|100$")
 # reg = r"[A-Za-z0-9]{4,20}@163.com"
 # ret = re.match(reg,"hello@163.com")
 # print("sssss",ret)
-#
 
-#
 # #匹配163.com的邮箱地址
 # import re
 # reg = r"[\w]{4,20}@163\.com$"
