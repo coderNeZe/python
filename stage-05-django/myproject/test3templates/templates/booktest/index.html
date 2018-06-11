@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<!--{{ hero.hname }}-->
+
+<!--url的反向解析  后边的123  789 是传值操作-->
+<a href="{% url 'booktest:show' '123' '789' %}">链接1</a>
+
+<hr>奇数行显示红色,偶然行显示为蓝色<hr>
+
+<ul>
+{% for hero in list %}
+
+    <!--看能不能整除(求余的过滤器)-->
+    {% if forloop.counter|divisibleby:"2" %}
+        <!--forloop.counter 显示当前循环是第几次-->
+        <li style="color: red">{{ forloop.counter }}:{{hero.hname}}</li>
+
+    {% else %}
+        <li style="color: blue">{{ forloop.counter }}:{{hero.hname}}</li>
+
+    {% endif %}
+
+    {% comment %}
+        我是多行的注释
+        我是多行的注释
+        我是多行的注释
+        我是多行的注释
+    {% endcomment %}
+
+    {#  单行注释 #}
+
+    <!--这个empty表示如果list里边什么都没有 就显示下边的文字-->
+    {% empty %}
+        <li>啥也没找到</li>
+
+{% endfor %}
+</ul>
+
+</body>
+</html>

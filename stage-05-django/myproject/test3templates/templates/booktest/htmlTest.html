@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <!--过滤器safe 转义-->
+    {{ t1|safe }}
+
+    <hr>
+    <!--或者使用这种形式 关闭转义-->
+    {%autoescape off %}
+    {{ t1 }}
+    {%endautoescape%}
+
+    <hr>
+    字面值:<br>
+    {{t2|default:'<h1>abc</h1>'}}
+
+    <br>
+    <!--如果t2不存在,输出default的值-->
+    手动转义:{{t2|default:'&lt;h1&gt;abc&lt;/h1&gt;'}}
+
+</body>
+</html>

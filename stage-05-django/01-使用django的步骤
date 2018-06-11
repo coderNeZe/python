@@ -19,8 +19,8 @@ django-admin startproject test2
 
 虚拟环境：workon,mkvirtualenv,rmvirtualenv,deactivate
 	pip list,pip install
-django的命令：django-admin startproject
-	python manage.py startapp
+django的命令：django-admin startproject 项目名字
+	python manage.py startapp 模块名字
 	python manage.py makemigrations
 	python manage.py migrate
 	python manage.py runserver
@@ -48,7 +48,7 @@ DATABASES = {
         'NAME': 'test2',
         'USER':'root',
         'PASSWORD':'11111111',
-        'HOST':'loaclhost',
+        'HOST':'localhost',
         'PORT':'3306',
     }
 }

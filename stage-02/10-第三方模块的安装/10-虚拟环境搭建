@@ -76,7 +76,6 @@ pipenv 项目交接
 
 /Library/Frameworks/Python.framework/Versions/3.6/bin/pipenv
 
-
 python manage.py startapp booktest
 
 

@@ -5,6 +5,7 @@ class BookInfoManager(models.Manager):
     def get_queryset(self):
         return super(BookInfoManager,self).get_queryset().filter(isDelete=False)
 
+    #自定义一个管理器 也能初始化创建对象的时候,就可以赋值相关的属性
     def create(self,btitle,bpub_date):
         b = BookInfo()
         b.btitle = btitle
@@ -21,8 +22,8 @@ class BookInfo(models.Model):
     bread = models.IntegerField(default=0)
     bcommet = models.IntegerField(null=False)
     isDelete = models.BooleanField(default=False)
-    class Meta:
-        db_table='bookinfo'
+    class Meta:  #在模型类中定义类Meta，用于设置元信息
+        db_table='bookinfo'  #改变表的名字
 
     #可以有多个管理器
     book1 = models.Manager()
