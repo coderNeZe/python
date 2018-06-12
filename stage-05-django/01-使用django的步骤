@@ -35,7 +35,7 @@ admin的使用admin.py
 查看所有的表 show databases;
 创建表:create database test2 charset=utf8
 使用表:use test2
-删除表: drop test2;
+删除表: drop database test2;
 查看表所有的字段:show tables
 查看表结构:desc bookinfo
 

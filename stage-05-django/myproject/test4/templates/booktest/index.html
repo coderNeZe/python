@@ -1,0 +1,15 @@
+{% load static from staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<img src="/static/booktest/111.jpeg" width="200" height="200">
+<br>
+<!--使用静态方法去找图片-->
+<img src="{% static 'booktest/111.jpeg' %}" width="200" height="200">
+</body>
+</html>
