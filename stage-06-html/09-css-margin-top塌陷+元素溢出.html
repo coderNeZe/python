@@ -8,6 +8,7 @@
             width: 300px;
             height: 200px;
             background-color: gold;
+            /*=================margin塌陷==================*/
             /*第一种解决塌陷的方法*/
             /*border: 1px solid gold;*/
 
@@ -16,10 +17,10 @@
         }
 
         /*第三种解决塌陷的方式:利用伪元素*/
-            .clearfix:before {
-                content: "";
-                display: table;
-            }
+        .clearfix:before {
+            content: "";
+            display: table;
+        }
 
         .box {
             width: 100px;
@@ -31,7 +32,7 @@
         }
 
 
-        /*元素溢出*/
+        /*=================元素溢出==================*/
         .yuansu {
             width: 500px;
             height: 300px;
@@ -57,12 +58,15 @@
     </style>
 </head>
 <body>
+    <!--margin塌陷-->
     <div class="con clearfix">
         <div class="box">
+            box
         </div>
     </div>
-
     <br>
+
+
     <!--元素溢出-->
     <div class="yuansu">
         <div class="box1">
