@@ -112,4 +112,11 @@ where sheng.pid is null and sheng.title='山西省'
 
 
 
+select otherUserID from userrelation
+inner join communitySevice_userinfo on
+communitySevice_userinfo.id = userrelation.id
+where id = 1 and type= 1;
+
+
+
 
