@@ -38,7 +38,7 @@ class HTTPServer():
         #b'GET / HTTP/1.1'
         request_start_line = request_lines[0]
         #提取用户请求的文件名
-        file_name  = re.match(r"\w+ +(/[^ ]*) ",request_start_line.decode("utf-8")).group(1)
+        file_name  = re.match(r"w+ +(\/[^ ]*) ",request_start_line.decode("utf-8")).group(1)
         #提取请求的方法
         method = re.match(r"(\w+) +/[^ ]* ",request_start_line.decode("utf-8")).group(1)
         print(file_name,method)
@@ -95,3 +95,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+

@@ -35,9 +35,6 @@
             /*background-color: red;*/
         /*}*/
 
-
-
-
         /*========================nth-of-type和nth-child的区别*/
         .box div {
             background-color: gold;
@@ -54,7 +51,21 @@
             background-color: pink;
         }
 
+        /*验证空标签*/
+        div:empty {
+            background-color: red;
+            height: 10px;
+        }
+        input:disabled {
+            background-color: red;
+        }
+        input:enabled {
+            background-color: green;
+        }
 
+        input:checked+label {
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -79,6 +90,16 @@
         <div>5</div>
         <div>6</div>
     </div>
+
+    <!--验证空标签-->
+    <div></div>
+
+    <!--设置失效-->
+    <input type="text" disabled>
+    <input type="text">
+
+    <input type="checkbox"><label>选择的状态</label>
+
 
 </body>
 </html>
